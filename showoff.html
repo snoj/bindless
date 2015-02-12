@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>bindless Tests</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+  body {
+    padding-top: 35px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  }
+  </style>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <ul class="nav nav-tabs">
+        <li role="presentation" onclick="$('.tests').show();"><a href="#">All</a></li>
+        <li role="presentation" onclick="$('.tests').hide(); $('#test1').show()"><a href="#">Test #1</a></li>
+      </ul>
+    </div>
+
+    <div id="test1" class="tests" style="">
+      <div class="row">
+        <div class="col-lg-12" onclick="$('.tests').hide(); $('#test1').show()">
+          <span class="h2">Test #1: Unnamed</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 text-center">
+          <div class="tools">
+          </div>
+          <div class="content">
+            <div><input data-bind="value: meohmy" /> </div>
+            <div><input data-bind="value: inception.innard" blp="aa" /> </div>
+          </div>
+        </div>
+        <div class="col-lg-6 text-left">
+          <div id="test1-bb">
+            <pre></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- /.container -->
+
+  <!-- jQuery Version 1.11.1 -->
+  <script src="js/jquery.1.11.2.debug.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Knockup -->
+  <script src="js/underscore.1.7.0.debug.js"></script>
+  <script src="js/backbone.1.1.2.debug.js"></script>
+  <script src="bindless.js"></script>
+  <script src="showoff.js"></script>
+
+</body>
+
+</html>
