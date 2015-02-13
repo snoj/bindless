@@ -95,19 +95,19 @@
       
       if(arguments.length == 1) {
         if(!_.isEqual(_oldvalue, newValue)) {
-
-          self.trigger('prechange', newValue, _oldvalue, ob);
+          var prevValue = _oldvalue;
+          _oldvalue = newValue;
+          self.trigger('prechange', newValue, prevValue, ob);
 
           if(!!!(ratecounter % ratelimit)) {
             ratecounter = 1;
             if(!!!ioptions.silent) {
-              self.trigger('change', newValue, _oldvalue, ob);
-              if(self.parent) self.parent.trigger('mutated', ob, newValue, _oldvalue);
+              self.trigger('change', newValue, prevValue, ob);
+              if(self.parent) self.parent.trigger('mutated', ob, newValue, prevValue);
             }
           } else {
             ratecounter++;
           }
-          _oldvalue = newValue;
         }
         //return self;
       }
