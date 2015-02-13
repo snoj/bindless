@@ -140,33 +140,61 @@
       Object.defineProperty(context, '$root', {value: root}); //self.attributes?
 
     //todo shorten this long line if possible
-    var raw = (new Function('$context', '$domo', 'try { with($context) { var ro = { ' + text + ' }; $domo.data("blcontext", $context); return ro; } } catch (ex) { $domo.removeData("blcontext"); console.error(ex); return ex; }'))(context, domo);
+    var innards = 'try { with($context) { var ro = { ' + text + ' }; if(!!!$domo.data("blcontext")) $domo.data("blcontext", $context); return ro; } } catch (ex) { $domo.removeData("blcontext"); console.error(ex); return ex; }';
+    var raw = (new Function('$context', '$domo', innards))(context, domo);
     //if raw instanceof Error it is bad code or non-existent object tree for this context.
     if(raw instanceof Error) return;
 
     _.each(raw, function(v, k) {
-      if(bl.handlers[k])
-        bl.handlers[k](domo, context, v);
+      if(bl.handlers[k]) {
+        if (!!!domo.data('init'))
+          bl.handlers[k].init(domo, context, v);
+        if (bl.handlers[k].each)
+          bl.handlers[k].each(domo, context, v);
+      }
     });
-
   };
   bl.handlers = {
-    value: function(domo, context, arg) {
-      var v = (typeof arg === 'function') ? arg() : arg;
-      domo.val(v);
-      if (!!!domo.data('blevent-value') && !!arg.__bl_proto__) {
-        var changeHandler = function(e) {
-          arg(domo.val());
-        };
-        domo.data('blevent-value', changeHandler);
-        domo.on('change', changeHandler);
+    value: {
+      init: function(domo, context, arg) {
+        var v = (typeof arg === 'function') ? arg() : arg;
+        domo.val(v);
+        if (!!!domo.data('blevent-value') && !!arg.__bl_proto__) {
+          var changeHandler = function(e) {
+            arg(domo.val());
+          };
+          domo.data('blevent-value', changeHandler);
+          domo.on('change', changeHandler);
+        }
       }
     }
-    ,text: function(domo, context, arg) {
-      domo.text(arg);
+    ,textInput: {
+      init: function(domo, context, arg) {
+        var v = (typeof arg === 'function') ? arg() : arg;
+        domo.val(v);
+        if (!!!domo.data('blevent-value') && !!arg.__bl_proto__) {
+          var changeHandler = function(e) {
+            arg(domo.val());
+          };
+          domo.data('blevent-value', changeHandler);
+          domo.on('keyup', changeHandler);
+        }
+      }
     }
-    ,html: function(domo, context, arg) {
-      domo.html(arg);
+    ,text: {
+      init: function(domo, context, arg) {
+        domo.text(arg);
+      }
+    }
+    ,html: {
+      init: function(domo, context, arg) {
+        domo.html(arg);
+      }
+    }
+    ,foreach: {
+      init: function(domo, console, arg) {
+
+      }
     }
   };
   
